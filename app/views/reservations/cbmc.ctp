@@ -55,6 +55,13 @@
     .btn-cbmc:hover {
         background-color: #946e00;
     }
+
+    select {
+        border-radius: 0; /* 아이폰 사파리 보더 없애기 */
+        -webkit-appearance: none; /* 화살표 없애기 for chrome*/
+        -moz-appearance: none; /* 화살표 없애기 for firefox*/
+        appearance: none /* 화살표 없애기 공통*/
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -64,7 +71,7 @@
         var hotelPrice = 0;
         var tourPrice = 0;
 
-        $("#hotel_yes, #hotel_no").change(function () {
+        $("#hotel_yes, #hotel_no, #adults, #children").change(function () {
             adults = Number($("#adults").val());
             children = Number($("#children").val());
             var pax = adults + children;
@@ -74,38 +81,28 @@
                 $("#hotel_wrapper").html("");
                 for (var i = 0; i < pax; i++) {
                     $("#hotel_wrapper").append("<div class=\"form-group col-md-3\">\n" +
-                        "                        <label>" + $('#lastName' + i +'').val() + " " + $('#firstName' + i + '').val() + "</label>\n" +
-                        "                        <select id= \"room\" type=\"text\" class=\"form-control form-control-sm\" name=\"data[CbmcCustomers][room" + i + "]\"\n" +
+                        "                        <label id=\"label_lastName" + i + "\">" + $('#lastName' + i + '').val() + " " + $('#firstName' + i + '').val() + "</label>\n" +
+                        "                        <select id= \"room" + i + "\" type=\"text\" class=\"form-control form-control-sm\" name=\"data[CbmcCustomers][room" + i + "]\"\n" +
                         "                                required>\n" +
-                        "                            <option value=\"1\">Room 1</option>\n" +
-                        "                            <option value=\"2\">Room 2</option>\n" +
-                        "                            <option value=\"3\">Room 3</option>\n" +
-                        "                            <option value=\"4\">Room 4</option>\n" +
+                        "                            <option value=\"1\">Room #1</option>\n" +
                         "                        </select>\n" +
-                        "                    </div>")
+                        "                    </div>");
                 }
-            }
-            else
+            } else {
                 $("#hotel_info").css("display", "none");
+            }
 
-            $("#adults, #children").change(function () {
-                $("#hotel_wrapper").html("");
+            $("#rooms").change(function () {
                 for (var i = 0; i < pax; i++) {
-                    $("#hotel_wrapper").append("<div class=\"form-group col-md-3\">\n" +
-                        "                        <label>" + $('#lastName' + i +'').val() + " " + $('#firstName' + i + '').val() + "</label>\n" +
-                        "                        <select id= \"room\" type=\"text\" class=\"form-control form-control-sm\" name=\"data[CbmcCustomers][room" + i + "]\"\n" +
-                        "                                required>\n" +
-                        "                            <option value=\"1\">Room 1</option>\n" +
-                        "                            <option value=\"2\">Room 2</option>\n" +
-                        "                            <option value=\"3\">Room 3</option>\n" +
-                        "                            <option value=\"4\">Room 4</option>\n" +
-                        "                        </select>\n" +
-                        "                    </div>")
+                    $("#room" + i).html("");
+                    for (var j = 0; j < $("#rooms").val(); j++) {
+                        $("#room" + i).append("<option value=" + (j+1) + ">Room #" + (j+1) + "</option>");
+                    }
                 }
             });
         });
 
-        $("#tour_yes, #tour_no").change(function () {
+        $("#tour_yes, #tour_no, #adults, #children").change(function () {
             adults = Number($("#adults").val());
             children = Number($("#children").val());
             var pax = adults + children;
@@ -115,7 +112,7 @@
                 $("#tour_wrapper").html("");
                 for (var i = 0; i < pax; i++) {
                     $("#tour_wrapper").append("<div class=\"form-group col-md-3\">\n" +
-                        "                        <label>" + $('#lastName' + i +'').val() + " " + $('#firstName' + i + '').val() + "</label>\n" +
+                        "                        <label>" + $('#lastName' + i + '').val() + " " + $('#firstName' + i + '').val() + "</label>\n" +
                         "                        <select type=\"text\" class=\"form-control form-control-sm\" name=\"data[CbmcCustomers][tour" + i + "]\"\n" +
                         "                                required>\n" +
                         "                            <option value=\"0\">None</option>\n" +
@@ -125,8 +122,7 @@
                         "                        </select>\n" +
                         "                    </div>")
                 }
-            }
-            else {
+            } else {
                 $("#tour_info").css("display", "none");
                 tourPrice = 0;
                 $("#total_price").val(basicPrice + hotelPrice + tourPrice);
@@ -309,18 +305,18 @@
             <!-- customer information -->
             <div id="customer">
                 <div class="row">
-                    <div class="form-group">
+                    <div class="form-group col-2">
                         <label for="lastName">Last Name</label>
                         <input type="text" class="form-control form-control-sm" name="data[CbmcCustomers][lname0]"
                                id="lastName0" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-3" style="width: 20%;">
                         <label for="firstName">First Name</label>
                         <input type="text" class="form-control form-control-sm" name="data[CbmcCustomers][fname0]"
                                id="firstName0"
                                required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-1">
                         <label for="gender">Gender</label>
                         <select type="text" class="form-control form-control-sm" name="data[CbmcCustomers][gender0]"
                                 id="gender0" required>
@@ -328,19 +324,19 @@
                             <option value="F">F</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col">
                         <label for="dob">DOB</label>
                         <input type="date" class="form-control form-control-sm" name="data[CbmcCustomers][dob0]"
                                id="dob0" required>
                     </div>
                     <input type="hidden" value="0" name="data[CbmcCustomers][is_child0]">
-                    <div class="form-group">
+                    <div class="form-group col">
                         <label for="tel">Phone</label>
                         <input type="tel" class="form-control form-control-sm" name="data[CbmcCustomers][phone]"
                                id="tel"
                                placeholder="e.g. 000-000-0000" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col">
                         <label for="tel">E-mail</label>
                         <input type="email" class="form-control form-control-sm" name="data[CbmcCustomers][email]"
                                id="email"
@@ -376,9 +372,59 @@
                 </div>
                 <div class="form-group col-md-1">
                     <label for="state">State</label>
-                    <input type="text" maxlength="2" class="form-control form-control-sm"
-                           name="data[CbmcCustomers][state]"
-                           id="state">
+                    <select name="data[CbmcCustomers][state]" class="form-control form-control-sm" id="state">
+                        <option value="AL">AL</option>
+                        <option value="AK">AK</option>
+                        <option value="AR">AR</option>
+                        <option value="AZ">AZ</option>
+                        <option value="CA">CA</option>
+                        <option value="CO">CO</option>
+                        <option value="CT">CT</option>
+                        <option value="DC">DC</option>
+                        <option value="DE">DE</option>
+                        <option value="FL">FL</option>
+                        <option value="GA">GA</option>
+                        <option value="HI">HI</option>
+                        <option value="IA">IA</option>
+                        <option value="ID">ID</option>
+                        <option value="IL">IL</option>
+                        <option value="IN">IN</option>
+                        <option value="KS">KS</option>
+                        <option value="KY">KY</option>
+                        <option value="LA">LA</option>
+                        <option value="MA">MA</option>
+                        <option value="MD">MD</option>
+                        <option value="ME">ME</option>
+                        <option value="MI">MI</option>
+                        <option value="MN">MN</option>
+                        <option value="MO">MO</option>
+                        <option value="MS">MS</option>
+                        <option value="MT">MT</option>
+                        <option value="NC">NC</option>
+                        <option value="NE">NE</option>
+                        <option value="NH">NH</option>
+                        <option value="NJ">NJ</option>
+                        <option value="NM">NM</option>
+                        <option value="NV">NV</option>
+                        <option value="NY">NY</option>
+                        <option value="ND">ND</option>
+                        <option value="OH">OH</option>
+                        <option value="OK">OK</option>
+                        <option value="OR">OR</option>
+                        <option value="PA">PA</option>
+                        <option value="RI">RI</option>
+                        <option value="SC">SC</option>
+                        <option value="SD">SD</option>
+                        <option value="TN">TN</option>
+                        <option value="TX">TX</option>
+                        <option value="UT">UT</option>
+                        <option value="VT">VT</option>
+                        <option value="VA">VA</option>
+                        <option value="WA">WA</option>
+                        <option value="WI">WI</option>
+                        <option value="WV">WV</option>
+                        <option value="WY">WY</option>
+                    </select>
                 </div>
                 <div class="form-group col-md-2">
                     <label for="zip">Zip</label>
@@ -391,12 +437,12 @@
                     Hotel Require?
                     <div class="form-group form-check-inline">
                         <label class="form-check-label">
-                            <input id="hotel_yes" class="form-check-input" type="radio" name="hotel" value="1">Yes
+                            <input id="hotel_yes" class="form-check-input" type="radio" name="data[CbmcCustomers][need_hotel]" value="1">Yes
                         </label>
                     </div>
                     <div class="form-group form-check-inline">
                         <label class="form-check-label">
-                            <input id="hotel_no" class="form-check-input" type="radio" name="hotel" value="0"
+                            <input id="hotel_no" class="form-check-input" type="radio" name="data[CbmcCustomers][need_hotel]" value="0"
                                    checked="checked">No
                         </label>
                     </div>
@@ -419,7 +465,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="gender">Rooms</label>
-                        <select type="text" class="form-control form-control-sm" name="data[CbmcCustomers][rooms]"
+                        <select id="rooms" type="text" class="form-control form-control-sm" name="data[CbmcCustomers][rooms]"
                                 required>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -446,12 +492,12 @@
                     Tour Require?
                     <div class="form-group form-check-inline">
                         <label class="form-check-label">
-                            <input class="form-check-input" id="tour_yes" type="radio" name="tour" value="1">Yes
+                            <input class="form-check-input" id="tour_yes" type="radio" name="data[CbmcCustomers][need_tour]" value="1">Yes
                         </label>
                     </div>
                     <div class="form-group form-check-inline">
                         <label class="form-check-label">
-                            <input class="form-check-input" id="tour_no" type="radio" name="tour" value="0"
+                            <input class="form-check-input" id="tour_no" type="radio" name="data[CbmcCustomers][need_tour]" value="0"
                                    checked="checked">No
                         </label>
                     </div>
@@ -523,8 +569,10 @@
             -->
             <div class="row">
                 <div class="form-group form-group-inline col-6">
-                    <label for="ReservationTotal">Total price: </label>
-                    <input value="500" readonly="readonly" id="total_price" class="" style="color: #fff; display: inline-block; background-color: inherit; border: none;" name="data[CbmcCustomers][price]">
+                    <label for="ReservationTotal">Total price:</label>
+                    <input value="500" readonly="readonly" id="total_price" class=""
+                           style="color: #fff; display: inline-block; background-color: inherit; border: none;"
+                           name="data[CbmcCustomers][price]">
                 </div>
             </div>
             <button type="submit" class="btn btn-cbmc float-right">Submit</button>
