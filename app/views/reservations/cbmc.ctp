@@ -8,6 +8,9 @@
         var tour_adult = 0;
         var tour_child = 0;
         var credit_fee = 0;
+        var extra_hotel = 180;
+        var hotelNight = 0;
+        var hotel_total = 0;
         var tour_total = 0;
         var total_price = 0;
         var final_price = 0;
@@ -15,6 +18,16 @@
         var adults = 1;
         var children = Number($("#children").val());
         var pax = adults + children;
+
+        $(".kcbmc-form-submit").click(function () {
+            $("input").each(function () {
+                if ($(this).val() == '') {
+                    $(this).css('border', '1px solid red');
+                } else {
+                    $(this).css('border', '');
+                }
+            });
+        });
 
         $(".date").each(function () {
             $(this).datepicker();
@@ -29,10 +42,15 @@
 
         $("#check_in").change(function () {
             $("#right-check_in").html($("#check_in").val());
+            hotelNight = dateDiff($("#check_in").val(), $("#check_out").val());
+            console.log(hotelNight);
+            hotel_total = extra_hotel * hotelNight;
         });
 
         $("#check_out").change(function () {
             $("#right-check_out").html($("#check_out").val());
+            hotelNight = dateDiff($("#check_in").val(), $("#check_out").val());
+            hotel_total = extra_hotel * hotelNight;
         });
 
         $("#rooms").change(function () {
@@ -118,6 +136,16 @@
             });
             //////////////////////////////////////////
 
+            $(".kcbmc-form-submit").click(function () {
+                $("input").each(function () {
+                    if ($(this).val() == '') {
+                        $(this).css('border', '1px solid red');
+                    } else {
+                        $(this).css('border', '');
+                    }
+                });
+            });
+
             //Change cost of summary
             $("#adult_cost").html((costa * adults).toFixed(2));
             $("#child_cost").html((costc * children).toFixed(2));
@@ -127,8 +155,11 @@
             $("#tour2_costc").html((tour2 * children).toFixed(2));
 
             cost_total = (adults * costa) + (children * costc);
-            total_price = cost_total + tour_total;
-            credit_fee = total_price * 0.035;
+            total_price = cost_total + tour_total + hotel_total;
+            if ($("#card").prop("checked"))
+                credit_fee = total_price * 0.035;
+            else
+                credit_fee = 0;
             final_price = total_price - credit_fee;
             $("#credit_fee").html(credit_fee.toFixed(2));
             $("#total_price").val(final_price);
@@ -152,6 +183,16 @@
                     "                                <input type=\"text\" class=\"col\" name=\"data[Cbmc][rtn_time]\" size=\"5\" placeholder=\"출발 시간\">\n" +
                     "                                <input type=\"text\" class=\"col\" name=\"data[Cbmc][rtn_flight]\" size=\"5\" placeholder=\"항공편명\">")
             }
+
+            $(".kcbmc-form-submit").click(function () {
+                $("input").each(function () {
+                    if ($(this).val() == '') {
+                        $(this).css('border', '1px solid #f00');
+                    } else {
+                        $(this).css('border', '');
+                    }
+                });
+            });
         });
 
         $("#tour0, #tour1, #tour2").change(function () {
@@ -170,8 +211,11 @@
             }
 
             cost_total = (adults * costa) + (children * costc);
-            total_price = cost_total + tour_total;
-            credit_fee = total_price * 0.035;
+            total_price = cost_total + tour_total + hotel_total;
+            if ($("#card").prop("checked"))
+                credit_fee = total_price * 0.035;
+            else
+                credit_fee = 0;
             final_price = total_price - credit_fee;
             $("#credit_fee").html(credit_fee.toFixed(2));
             $("#total_price").val(final_price);
@@ -189,6 +233,14 @@
                     "                            <input type=\"text\" placeholder=\"City\">\n" +
                     "                            <input type=\"text\" placeholder=\"State\">\n" +
                     "                            <input type=\"text\" placeholder=\"Zip\">");
+                cost_total = (adults * costa) + (children * costc);
+                total_price = cost_total + tour_total + hotel_total;
+                credit_fee = total_price * 0.035;
+                final_price = total_price - credit_fee;
+                $("#credit_fee").html(credit_fee.toFixed(2));
+                $("#total_price").val(final_price);
+                $("#total").html("$" + final_price.toFixed(2) + "");
+                $("#total2").html(final_price.toFixed(2));
             } else {
                 $("#payment-contents").html("<div>\n" +
                     "                            <p>개인 수표 보내실 주소</p>\n" +
@@ -197,7 +249,25 @@
                     "                            <p>Suite 105</p>\n" +
                     "                            <p>Elkins Park, 19027</p>\n" +
                     "                        </div>");
+                cost_total = (adults * costa) + (children * costc);
+                total_price = cost_total + tour_total + hotel_total;
+                credit_fee = 0;
+                final_price = total_price - credit_fee;
+                $("#credit_fee").html(credit_fee.toFixed(2));
+                $("#total_price").val(final_price);
+                $("#total").html("$" + final_price.toFixed(2) + "");
+                $("#total2").html(final_price.toFixed(2));
             }
+
+            $(".kcbmc-form-submit").click(function () {
+                $("input").each(function () {
+                    if ($(this).val() == '') {
+                        $(this).css('border', '1px solid red');
+                    } else {
+                        $(this).css('border', '');
+                    }
+                });
+            });
         });
         $("#sig_date").datepicker().datepicker('setDate', 'today')
     });
@@ -397,7 +467,7 @@
                         <div>
                             <div id="arr_info">
                                 <input type="text" class="col" name="data[Cbmc][dep_city]" size="5" placeholder="출발 도시" required>
-                                <input type="text" class="col" name="data[Cbmc][dep_time]" size="5" placeholder="출발 시간 required">
+                                <input type="text" class="col" name="data[Cbmc][dep_time]" size="5" placeholder="출발 시간" required>
                                 <input type="text" class="col" name="data[Cbmc][dep_flight]" size="5"
                                        placeholder="항공편명" required>
                                 <input type="text" class="col" name="data[Cbmc][rtn_city]" size="5" placeholder="리턴 도시" required>
@@ -519,7 +589,7 @@
                     <div>
                         <p style="font-size: 11px;">
                             By Electronically signing above, I fully authorize the KCBMC to accept, register my
-                            reservation, and charge my credit card in the amount $<span id="total2">1417.50</span>. I am also fully
+                            reservation, and charge my credit card in the amount $<span id="total2">0.00</span>. I am also fully
                             aware of
                             cancellation policy provided by the KCBMC.
                         </p>
