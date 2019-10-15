@@ -9,15 +9,26 @@
 </style>
 <script>
     $(document).ready(function () {
-        var costa = 550;
-        var costc = 450;
+        var costa = 450;
+        var costc = 320;
+        var early1 = dateDiff(printToday(), "2020-01-31");
+        var early2 = dateDiff(printToday(), "2020-04-30");
+        if (early1 < 0 && ealry2 >= 0) {
+            costa = 470;
+            costc = 340;
+        } else if (early2 < 0) {
+            costa = 490;
+            costc = 360;
+        }
         var cost_total = 0;
         var tour1 = 160;
         var tour2 = 680;
         var tour_adult = 0;
         var tour_child = 0;
         var credit_fee = 0;
-        var extra_hotel = 180;
+        var extra_hotel = 210;
+        var hotela = 140;
+        var hotelc = 100;
         var hotel_rooms = 1;
         var hotelNight = 0;
         var hotel_total = 0;
@@ -30,8 +41,12 @@
         var pax = adults + children;
         var summaryOffset = $(".kcbmc-summary").offset();
 
+        $("#costa").html(costa.toFixed(2));
+        $("#costc").html(costc.toFixed(2));
+        $("#adult_cost").html((costa * adults).toFixed(2));
+
         $(".kcbmc-participants-last, .kcbmc-participants-first").change(function () {
-            var val = $(this).val()
+            var val = $(this).val();
             $(this).val(val.toUpperCase());
         });
 
@@ -65,21 +80,25 @@
             this.value = inputCredit(_val);
         });
 
-        $(window).scroll(function () {
-            if ($(document).scrollTop() > (summaryOffset.top - 80)) {
-                $(".kcbmc-summary").css({
-                    'position': 'fixed',
-                    'top': '80px',
-                    'width': '267px'
-                })
-            } else {
-                $(".kcbmc-summary").css({
-                    'position': '',
-                    'top': '',
-                    'width': ''
-                })
-            }
-        });
+        var windowWidth = $(window).width();
+
+        if (windowWidth > 767) {
+            $(window).scroll(function () {
+                if ($(document).scrollTop() > (summaryOffset.top - 40)) {
+                    $(".kcbmc-summary").css({
+                        'position': 'fixed',
+                        'top': '40px',
+                        'width': '267px'
+                    })
+                } else {
+                    $(".kcbmc-summary").css({
+                        'position': '',
+                        'top': '',
+                        'width': ''
+                    })
+                }
+            });
+        }
 
         $(".kcbmc-form-submit").click(function () {
             $("input").each(function () {
@@ -102,6 +121,8 @@
         $(".date").each(function () {
             $(this).datepicker();
             $(this).datepicker("option", "dateFormat", "yy-mm-dd");
+            $(this).datepicker("option", "minDate", new Date(2020, 6 - 1, 23));
+            $(this).datepicker("option", "maxDate", new Date(2020, 6 - 1, 30));
         });
 
         $("#check_in").val("2020-06-25");
@@ -193,7 +214,7 @@
             $("#participants").html("");
             for (j = 0; j < adults; j++) {
                 $("#participants").append("<div class=\"kcbmc-participants\">\n" +
-                    "                                <input disabled=\"disabled\" value=\"A.Guest #" + (j + 1) + "\" class=\"num\">\n" +
+                    "                                <input disabled=\"disabled\" value=\"Adult #" + (j + 1) + "\" class=\"num\">\n" +
                     "                                <select name=\"data[Cbmc][title" + j + "]\">\n" +
                     "                                    <option value='Mr.'>Mr.</option>\n" +
                     "                                    <option value='Ms.'>Ms.</option>\n" +
@@ -214,7 +235,7 @@
 
             for (; j < pax; j++) {
                 $("#participants").append("<div class=\"kcbmc-participants\">\n" +
-                    "                                <input disabled=\"disabled\" value=\"C.Guest #" + (j + 1) + "\" class=\"num\">\n" +
+                    "                                <input disabled=\"disabled\" value=\"Child #" + (j + 1) + "\" class=\"num\">\n" +
                     "                                <select name=\"data[Cbmc][title" + j + "]\" required>\n" +
                     "                                    <option value='MR.'>Mr.</option>\n" +
                     "                                    <option value='Ms.'>Ms.</option>\n" +
@@ -241,7 +262,7 @@
             $("#ptcp_info").html("");
             for (j = 0; j < adults; j++) {
                 $("#ptcp_info").append("<div style=\"display: flex\">\n" +
-                    "                                <input disabled=\"disabled\" value=\"A.Guest #" + (j + 1) + "\" class=\"num\">\n" +
+                    "                                <input disabled=\"disabled\" value=\"Adult #" + (j + 1) + "\" class=\"num\">\n" +
                     "                                <input id=\"phone" + j + "\" maxlength='12' class=\"col\" type=\"text\" name=\"data[CbmcCustomers][phone" + j + "]\"\n" +
                     "                                       placeholder=\"Phone\" required>\n" +
                     "                                <input id=\"email" + j + "\" class=\"col\" type=\"text\" name=\"data[CbmcCustomers][email" + j + "]\" placeholder=\"Email\" required>\n" +
@@ -256,7 +277,7 @@
 
             for (; j < pax; j++) {
                 $("#ptcp_info").append("<div style=\"display: flex\">\n" +
-                    "                                <input disabled=\"disabled\" value=\"C.Guest #" + (j + 1) + "\" class=\"num\">\n" +
+                    "                                <input disabled=\"disabled\" value=\"Child #" + (j + 1) + "\" class=\"num\">\n" +
                     "                                <input id=\"phone" + j + "\" maxlength='12' class=\"col\" type=\"text\" name=\"data[CbmcCustomers][phone" + j + "]\"\n" +
                     "                                       placeholder=\"Phone\" required>\n" +
                     "                                <input id=\"email" + j + "\" class=\"col\" type=\"text\" name=\"data[CbmcCustomers][email" + j + "]\" placeholder=\"Email\" required>\n" +
@@ -357,6 +378,28 @@
             $("#total_price").val(final_price);
             $("#total").html("$" + final_price.toFixed(2) + "");
             $("#total2").html(final_price.toFixed(2));
+        });
+
+        $("#hotel_need, #hotel_no").change(function () {
+            if ($("#hotel_need").prop("checked")) {
+                $("#hotel").css("display", "");
+                costa = costa + hotela;
+                costc = costc + hotelc;
+                $("#adult_cost").html((costa * adults).toFixed(2));
+                $("#child_cost").html((costc * children).toFixed(2));
+                $("#costa").html(costa.toFixed(2));
+                $("#costc").html(costc.toFixed(2));
+                calTotal();
+            } else {
+                $("#hotel").css("display", "none");
+                costa = costa - hotela;
+                costc = costc - hotelc;
+                $("#adult_cost").html((costa * adults).toFixed(2));
+                $("#child_cost").html((costc * children).toFixed(2));
+                $("#costa").html(costa.toFixed(2));
+                $("#costc").html(costc.toFixed(2));
+                calTotal();
+            }
         });
 
         $("#air, #car").change(function () {
@@ -548,6 +591,22 @@
         $("#total_price").val(final_price);
         $("#total").html("$" + final_price.toFixed(2) + "");
         $("#total2").html(final_price.toFixed(2));
+
+        function calTotal() {
+            hotel_total = extra_hotel * hotelNight * hotel_rooms;
+            $("#hotel_cost").html(hotel_total.toFixed(2));
+            cost_total = (adults * costa) + (children * costc);
+            total_price = cost_total + tour_total + hotel_total;
+            if ($("#card").prop("checked"))
+                credit_fee = total_price * 0.035;
+            else
+                credit_fee = 0;
+            final_price = total_price + credit_fee;
+            $("#credit_fee").html(credit_fee.toFixed(2));
+            $("#total_price").val(final_price);
+            $("#total").html("$" + final_price.toFixed(2) + "");
+            $("#total2").html(final_price.toFixed(2));
+        }
     });
 
     function printToday() {
@@ -661,10 +720,12 @@
             <div class="kcbmc-logo">
                 <img src="/img/kcbmc/CBMC-Logo-1200.jpg">
             </div>
-            <div style="width: 1px; height: 80%; background-color: #bbb;"></div>
+            <div id="kcbcm-div" style="width: 1px; height: 80%; background-color: #bbb;"></div>
             <div class="kcbmc-title">
-                <p>제25차 북미주 KCBMC</p>
-                <p style="font-size: 20px;">필라델피아 대회</p>
+                <div class="kcbmc-title-mobile">
+                    <p>제25차 북미주 KCBMC</p>
+                    <p id="kcbmc-title-sub">필라델피아 대회</p>
+                </div>
                 <p>2020년 6월 25일 ~ 27일</p>
             </div>
         </div>
@@ -693,14 +754,14 @@
                         <p class="kcbmc-form-input-label">Number of Participants & Associated regional Chapter</p>
                         <div id="kcbmc-form-info" style="display: flex;">
                             <div style="width: 10%;">
-                                <p>Adults</p>
+                                <p>어른</p>
                                 <select style="width: 100%;" id="adults" name="data[CbmcReservations][adults]" required>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                 </select>
                             </div>
                             <div style="width: 10%;">
-                                <p>Children</p>
+                                <p>소아</p>
                                 <select style="width: 100%;" id="children" name="data[CbmcReservations][children]"
                                         required>
                                     <option value="0">0</option>
@@ -745,7 +806,7 @@
                         <p class="kcbmc-form-input-label">Name of Participants</p>
                         <div id="participants">
                             <div class="kcbmc-participants">
-                                <input disabled="disabled" value="A.Guest #1" class="num">
+                                <input disabled="disabled" value="Adult #1" class="num">
                                 <select name="data[Cbmc][title0]" required>
                                     <option value="Mr.">Mr.</option>
                                     <option value="Ms.">Ms.</option>
@@ -755,7 +816,8 @@
                                        size="8" placeholder="Last" required>
                                 <input class="kcbmc-participants-first" type="text" name="data[CbmcCustomers][fname0]"
                                        size="15" placeholder="First" required>
-                                <input readonly="readonly" class="kcbmc-participants-dob adult_date" size="10" type="text"
+                                <input readonly="readonly" class="kcbmc-participants-dob adult_date" size="10"
+                                       type="text"
                                        name="data[CbmcCustomers][dob0]"
                                        placeholder="DOB" required>
                                 <img src="https://ozshuttle.com/ozshuttle/images/icon_calen.gif">
@@ -767,7 +829,8 @@
                     <div class="kcbmc-form-input-wrapper">
                         <p class="kcbmc-form-input-label">Name of Business</p>
                         <div id="participants">
-                            <input type="text" size="40" placeholder="Name of Business" required>
+                            <input type="text" size="40" name="data[Cbmc][business_name]" placeholder="Name of Business"
+                                   required>
                         </div>
                     </div>
                     <div class="kcbmc-form-input-wrapper">
@@ -836,13 +899,13 @@
                         </div>
                         <div id="ptcp_info">
                             <div style="display: flex">
-                                <input disabled="disabled" value="A.Guest #1" class="num" required>
+                                <input disabled="disabled" value="Adult #1" class="num" required>
                                 <input maxlength="12" id="phone0" class="col" type="text"
                                        name="data[CbmcCustomers][phone0]"
                                        placeholder="Phone" required>
                                 <input class="col" type="text" name="data[CbmcCustomers][email0]" placeholder="Email"
                                        required>
-                                <input class="col" type="text" name="data[CbmcCustomers][kakao0]"
+                                <input class="col" type="text" name="data[Cbmc][kakao0]"
                                        placeholder="Kakao Talk ID" required>
                             </div>
                         </div>
@@ -877,7 +940,16 @@
                         </div>
                     </div>
                     <div class="kcbmc-form-input-wrapper">
-                        <p class="kcbmc-form-input-label">Hotel Reservations</p>
+                        <p class="kcbmc-form-input-label">Hotel Reservations
+                            <label for="hotel_need">
+                                <input id="hotel_need" type="radio" name="hotel_need" value="1" checked="checked">
+                                예약
+                            </label>
+                            <label for="hotel_no">
+                                <input id="hotel_no" type="radio" name="hotel_need" value="0">
+                                예약 안 함
+                            </label>
+                        </p>
                         <div id="hotel">
                             <div>
                                 <span>Check in</span>
@@ -904,8 +976,8 @@
                                 <p>- Double Tree Hotel Philadelphia Downtown</p>
                                 <p>&nbsp;&nbsp;Address: 237 S Broad St, Philadelphia, PA 19107</p>
                                 <p>&nbsp;&nbsp;Phone: (215) 893-1600</p>
-                                <p>&nbsp;&nbsp;호텔은 2인1실 기준이며. 개인 독방을 원하시면 $180 을 추가하셔야 합니다.</p>
-                                <p>- 대회전/후의 추가객실예약은 대회가격 ($180/1박)의 혜택을 협회에서 드립니다.</p>
+                                <p>&nbsp;&nbsp;호텔은 2인1실 기준이며. 개인 독방을 원하시면 $210 을 추가하셔야 합니다.</p>
+                                <p>- 대회전/후의 추가객실예약은 대회가격 ($210/1박)의 혜택을 협회에서 드립니다.</p>
                                 <p>- 부부가 아닌경우 룸메이트를 원하시면 신청서에 알려 주시기 바랍니다.</p>
                             </div>
                         </div>
@@ -926,9 +998,9 @@
                                 <span>
                                     랭캐스터 성극, Queen Esther <strong>$160.00/pp</strong>
                                 </span>
-                                <div class="view_tour" data-toggle="modal" data-target="#tour_m1">
+                                <a style="margin-left: 10px;" href="https://www.ihanatour.com/files/QueenEsther.pdf">
                                     [일정보기]
-                                </div>
+                                </a>
                                 <div class="modal fade" id="tour_m1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -960,9 +1032,10 @@
                                 <span>
                                     미동부지역 4박5일 하이라이트 <strong>$680.00/pp</strong>
                                 </span>
-                                <div class="view_tour" data-toggle="modal" data-target="#tour_m2">
+                                <a style="margin-left: 10px;"
+                                   href="https://www.ihanatour.com/files/USEastern4nt5dyTour.pdf">
                                     [일정보기]
-                                </div>
+                                </a>
                                 <div class="modal fade" id="tour_m2">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -992,8 +1065,10 @@
                             </div>
                             <div class="kcbmc-exp">
                                 <p>- 옵션투어는 날자가 겹치는 관계로 두가지중 하나만 선택합니다.</p>
-                                <p>- 상기옵션투어은 어린이 또는 소아할인이 적용되지 않습니다.</p>
-                                <p>- 미동부투어 하이라이트 4박투어는 2인1실기준이며 전일정 식사/현지옵션/가이드팁이 포함되어있습니다.</p>
+                                <p>- 상기옵션투어는 어린이 할인이 적용되지 않습니다.</p>
+                                <p>- 미동부투어 하이라이트 4박투어는 2인1실기준이며<br>
+                                    &nbsp;&nbsp;전일정 식사/현지옵션/가이드팁이 포함되어있습니다. 또한 <span style="color: red;">여권지참필수</span>입니다.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -1124,14 +1199,16 @@
                                 <div class="kcbmc-details-contents">
                                     <div class="kcbmc-cost">
                                         <p style="font-weight: 600">대회 참가 비용 (Cost)</p>
-                                        <p>&nbsp;&nbsp;$550.00 x <span class="adults">1</span> = $<span
+                                        <p>&nbsp;&nbsp;$<span id="costa">550.00</span> x <span class="adults">1</span> =
+                                            $<span
                                                     id="adult_cost">550.00</span> (Adults)</p>
-                                        <p>&nbsp;&nbsp;$450.00 x <span class="children">0</span> = $<span
+                                        <p>&nbsp;&nbsp;$<span id="costc">450.00</span> x <span class="children">0</span>
+                                            = $<span
                                                     id="child_cost">0.00</span> (Child)</p>
                                     </div>
                                     <div class="kcbmc-cost" id="sum_hotel">
                                         <p style="font-weight: 600">추가 투숙 비용</p>
-                                        <p id="extra_night">&nbsp;&nbsp;$180.00 x <span class="night">0</span>박 x <span
+                                        <p id="extra_night">&nbsp;&nbsp;$210.00 x <span class="night">0</span>박 x <span
                                                     class="rooms">1</span>방 = $<span id="hotel_cost">0.00</span>
                                         </p>
                                     </div>
@@ -1157,10 +1234,67 @@
                                         <p>&nbsp;&nbsp;Cost: $<span id="credit_fee">49.50</span></p>
                                     </div>
                                     <div id="kcbmc-price" class="kcbmc-cost">
-                                        <p style="padding-top: 10px; border-top: 2px solid #0000cc">Total Due Now</p>
+                                        <p>Total Due Now</p>
                                         <p><span id="total">$0.00</span><br>(included Tax)</p>
-                                        <p style="margin-top:10px; border-top: 2px solid #0000cc; color: red">1차 접수 마감일인<br>1월
-                                            3일 전까지 완납하시면<br>15% 할인혜택을 받으실 수 있습니다.</p>
+                                    </div>
+                                    <div id="kcbmc-notice">
+                                        <div class="notice-title">
+                                            Early Bird (~ 01/31/2020)
+                                        </div>
+                                        <div class="notice-contents">
+                                            <div class="contents">
+                                                <p>With Hotel</p>
+                                                <dl>
+                                                    <dd>Adult: $450.00</dd>
+                                                    <dd>Child: $320.00</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="contents">
+                                                <p>Without Hotel</p>
+                                                <dl>
+                                                    <dd>$310.00</dd>
+                                                    <dd>$220.00</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="notice-title">
+                                            2nd Early Bird (~ 04/30/2020)
+                                        </div>
+                                        <div class="notice-contents">
+                                            <div class="contents">
+                                                <p>With Hotel</p>
+                                                <dl>
+                                                    <dd>Adult: $470.00</dd>
+                                                    <dd>Child: $340.00</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="contents">
+                                                <p>Without Hotel</p>
+                                                <dl>
+                                                    <dd>$330.00</dd>
+                                                    <dd>$240.00</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                        <div class="notice-title">
+                                            Regular
+                                        </div>
+                                        <div class="notice-contents">
+                                            <div class="contents">
+                                                <p>With Hotel</p>
+                                                <dl>
+                                                    <dd>Adult: $490.00</dd>
+                                                    <dd>Child: $360.00</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="contents">
+                                                <p>Without Hotel</p>
+                                                <dl>
+                                                    <dd>$350.00</dd>
+                                                    <dd>$260.00</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
                                     </div>
                                     <input value="500" type="hidden" id="total_price" name="data[CbmcCustomers][price]">
                                     <input class="kcbmc-form-submit" type="submit" value="예약하기">
@@ -1172,24 +1306,23 @@
             </div>
             <div class="kcbmc-footer">
                 <p>안내사항</p>
-                <div class="kcbmc-footer-contents">
-                    <p>
-                        1. 필라공항/호텔간 셔틀서비스는 개별적으로 택시/기차/우버등을 이용하여주십시요.<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;참고로 필라델피아시에서 지정한 공항/호텔간 택시비는 균일가로 $25.00/편도이며<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;공항에서 호텔까지는 약 15분 소요됩니다.
-                    </p>
-                    <p>
-                        2. 자세한 정보는 대회 웹사이트 <a href="http://www.2019kcbmc.com">www.2019kcbmc.com</a>에서 상세히 안내해드리고 있습니다
-                    </p>
-                    <p>
-                        3. 옵션투어안내<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;랭캐스터 성극은 사전 좌석지정이 안됩니다. 따라서 극장에 도착하여 좌석을 배분 받습니다.<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;동부투어는 투어 종료 후 필라공항에 위치한 호텔에 투숙하시고 익일 조식을 마치신 후 자유체크아웃입니다.
-                    </p>
-                    <p>
-                        4. 추가 문의 사항이 있으시면 총연 사무국의 이메일 contact@kcbmc.net 또는 전화 703-439-1703 으로 문의 바랍니다.
-                    </p>
-                </div>
+                <ol class="kcbmc-footer-contents">
+                    <li>
+                        필라공항/호텔 간 셔틀서비스는 개별적으로 택시/기차/우버등을 이용하여주십시요.<br>
+                        참고로 필라델피아시에서 지정한 공항/호텔간 택시비는 균일가로 $25.00/편도이며 공항에서
+                        호텔까지는 약 15분 소요됩니다.
+                    </li>
+                    <li>
+                        자세한 정보는 대회 웹사이트 <a href="http://www.2019kcbmc.com">www.2019kcbmc.com</a>에서 상세히 안내해드리고 있습니다
+                    </li>
+                    <li>
+                        옵션투어안내<br>랭캐스터 성극은 사전 좌석지정이 안됩니다. 따라서 극장에 도착하여 좌석을 배분 받습니다.<br>
+                        동부투어는 투어 종료 후 필라공항에 위치한 호텔에 투숙하시고 익일 조식을 마치신 후 자유체크아웃입니다.
+                    </li>
+                    <li>
+                        추가 문의 사항이 있으시면 총연 사무국의 이메일 contact@kcbmc.net 또는 전화 703-439-1703 으로 문의 바랍니다.
+                    </li>
+                </ol>
             </div>
         </form>
     </div>
