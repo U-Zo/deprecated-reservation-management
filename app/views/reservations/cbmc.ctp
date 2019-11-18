@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="/css/cbmc.css">
 <style>
     #kcbmc-form-info div {
         margin-right: 2px;
@@ -125,6 +126,85 @@
             $(this).datepicker("option", "maxDate", new Date(2020, 6 - 1, 30));
         });
 
+        $("#kor, #eng").change(function () {
+            if ($("#eng").prop("checked")) {
+                location.href="https://ihanatour.com/reservations/cbmc_en";
+            }
+        });
+
+        $("#ko, #fo").change(function () {
+            if ($("#ko").prop("checked")) {
+                $("#addr").html("<input style=\"width: 45%;\" type=\"text\" name=\"data[CbmcCustomers][address]\"\n" +
+                    "                                   size=\"25\"\n" +
+                    "                                   placeholder=\"Address\" required><br>\n" +
+                    "                            <input style=\"width: 30%\" type=\"text\" name=\"data[CbmcCustomers][city]\" size=\"10\"\n" +
+                    "                                   placeholder=\"City\" required>\n" +
+                    "                            <input style=\"width: 15%\" type=\"text\" name=\"data[CbmcCustomers][zip]\" size=\"2\"\n" +
+                    "                                   maxlength=\"9\" placeholder=\"Zip\" required>");
+            } else {
+                $("#addr").html("<input style=\"width: 45%;\" type=\"text\" name=\"data[CbmcCustomers][address]\"\n" +
+                    "                                   size=\"25\"\n" +
+                    "                                   placeholder=\"Address\" required><br>\n" +
+                    "                            <input style=\"width: 30%\" type=\"text\" name=\"data[CbmcCustomers][city]\" size=\"10\"\n" +
+                    "                                   placeholder=\"City\" required>\n" +
+                    "                            <select style=\"width: 10%\" name=\"data[CbmcCustomers][state]\" required>\n" +
+                    "                                <option value=\"AL\">AL</option>\n" +
+                    "                                <option value=\"AK\">AK</option>\n" +
+                    "                                <option value=\"AR\">AR</option>\n" +
+                    "                                <option value=\"AZ\">AZ</option>\n" +
+                    "                                <option value=\"CA\">CA</option>\n" +
+                    "                                <option value=\"CO\">CO</option>\n" +
+                    "                                <option value=\"CT\">CT</option>\n" +
+                    "                                <option value=\"DC\">DC</option>\n" +
+                    "                                <option value=\"DE\">DE</option>\n" +
+                    "                                <option value=\"FL\">FL</option>\n" +
+                    "                                <option value=\"GA\">GA</option>\n" +
+                    "                                <option value=\"HI\">HI</option>\n" +
+                    "                                <option value=\"IA\">IA</option>\n" +
+                    "                                <option value=\"ID\">ID</option>\n" +
+                    "                                <option value=\"IL\">IL</option>\n" +
+                    "                                <option value=\"IN\">IN</option>\n" +
+                    "                                <option value=\"KS\">KS</option>\n" +
+                    "                                <option value=\"KY\">KY</option>\n" +
+                    "                                <option value=\"LA\">LA</option>\n" +
+                    "                                <option value=\"MA\">MA</option>\n" +
+                    "                                <option value=\"MD\">MD</option>\n" +
+                    "                                <option value=\"ME\">ME</option>\n" +
+                    "                                <option value=\"MI\">MI</option>\n" +
+                    "                                <option value=\"MN\">MN</option>\n" +
+                    "                                <option value=\"MO\">MO</option>\n" +
+                    "                                <option value=\"MS\">MS</option>\n" +
+                    "                                <option value=\"MT\">MT</option>\n" +
+                    "                                <option value=\"NC\">NC</option>\n" +
+                    "                                <option value=\"NE\">NE</option>\n" +
+                    "                                <option value=\"NH\">NH</option>\n" +
+                    "                                <option value=\"NJ\">NJ</option>\n" +
+                    "                                <option value=\"NM\">NM</option>\n" +
+                    "                                <option value=\"NV\">NV</option>\n" +
+                    "                                <option value=\"NY\">NY</option>\n" +
+                    "                                <option value=\"ND\">ND</option>\n" +
+                    "                                <option value=\"OH\">OH</option>\n" +
+                    "                                <option value=\"OK\">OK</option>\n" +
+                    "                                <option value=\"OR\">OR</option>\n" +
+                    "                                <option value=\"PA\">PA</option>\n" +
+                    "                                <option value=\"RI\">RI</option>\n" +
+                    "                                <option value=\"SC\">SC</option>\n" +
+                    "                                <option value=\"SD\">SD</option>\n" +
+                    "                                <option value=\"TN\">TN</option>\n" +
+                    "                                <option value=\"TX\">TX</option>\n" +
+                    "                                <option value=\"UT\">UT</option>\n" +
+                    "                                <option value=\"VT\">VT</option>\n" +
+                    "                                <option value=\"VA\">VA</option>\n" +
+                    "                                <option value=\"WA\">WA</option>\n" +
+                    "                                <option value=\"WI\">WI</option>\n" +
+                    "                                <option value=\"WV\">WV</option>\n" +
+                    "                                <option value=\"WY\">WY</option>\n" +
+                    "                            </select>\n" +
+                    "                            <input style=\"width: 15%\" type=\"text\" name=\"data[CbmcCustomers][zip]\" size=\"2\"\n" +
+                    "                                   maxlength=\"5\" placeholder=\"Zip\" required>");
+            }
+        });
+
         $("#check_in").val("2020-06-25");
         $("#check_out").val("2020-06-27");
 
@@ -214,44 +294,48 @@
             $("#participants").html("");
             for (j = 0; j < adults; j++) {
                 $("#participants").append("<div class=\"kcbmc-participants\">\n" +
-                    "                                <input disabled=\"disabled\" value=\"Adult #" + (j + 1) + "\" class=\"num\">\n" +
-                    "                                <select name=\"data[Cbmc][title" + j + "]\">\n" +
-                    "                                    <option value='Mr.'>Mr.</option>\n" +
-                    "                                    <option value='Ms.'>Ms.</option>\n" +
-                    "                                    <option value='Dr.'>Dr.</option>\n" +
-                    "                                </select>\n" +
-                    "                                <input class=\"kcbmc-participants-last\" type=\"text\" name=\"data[CbmcCustomers][lname" + j + "]\"\n" +
-                    "                                       size=\"8\" placeholder=\"Last\" required>\n" +
-                    "                                <input class=\"kcbmc-participants-first\" type=\"text\" name=\"data[CbmcCustomers][fname" + j + "]\"\n" +
-                    "                                       size=\"15\" placeholder=\"First\" required>\n" +
-                    "                                <input class=\"kcbmc-participants-dob adult_date\" size=\"10\" type=\"text\"\n" +
-                    "                                       name=\"data[CbmcCustomers][dob" + j + "]\"\n" +
-                    "                                       readonly='readonly' placeholder=\"DOB\" required>\n" +
-                    "                                <img src=\"https://ozshuttle.com/ozshuttle/images/icon_calen.gif\">\n" +
-                    "                                <input class=\"kcbmc-participants-is_child\" type=\"hidden\"\n" +
-                    "                                       name=\"data[CbmcCustomers][is_child" + j + "]\" value=\"0\">\n" +
-                    "                            </div>");
+                    "                                    <div style=\"display: flex; flex-wrap: wrap;\">\n" +
+                    "                                    <input disabled=\"disabled\" value=\"Adult #" + (j + 1) + "\" class=\"num\">\n" +
+                    "                                    <select name=\"data[Cbmc][title" + j + "]\" required>\n" +
+                    "                                        <option value=\"Mr.\">Mr.</option>\n" +
+                    "                                        <option value=\"Ms.\">Ms.</option>\n" +
+                    "                                        <option value=\"Dr.\">Dr.</option>\n" +
+                    "                                    </select>\n" +
+                    "                                    <input class=\"kcbmc-participants-last\" type=\"text\" name=\"data[CbmcCustomers][lname" + j + "]\"\n" +
+                    "                                           size=\"4\" placeholder=\"Last\" required>\n" +
+                    "                                    <input class=\"kcbmc-participants-first\" type=\"text\" name=\"data[CbmcCustomers][fname" + j + "]\"\n" +
+                    "                                           size=\"8\" placeholder=\"First\" required>\n" +
+                    "                                    <input type=\"text\" size=\"5\" name=\"data[Cbmc][korean_name" + j + "]\" placeholder=\"한글 성함\">\n" +
+                    "                                    <input readonly=\"readonly\" class=\"kcbmc-participants-dob adult_date\" size=\"9\"\n" +
+                    "                                           type=\"text\"\n" +
+                    "                                           name=\"data[CbmcCustomers][dob" + j + "]\"\n" +
+                    "                                           placeholder=\"DOB\" required>\n" +
+                    "                                    <input class=\"kcbmc-participants-is_child\" type=\"hidden\"\n" +
+                    "                                           name=\"data[CbmcCustomers][is_child" + j + "]\" value=\"0\">\n" +
+                    "                                </div></div>");
             }
 
             for (; j < pax; j++) {
                 $("#participants").append("<div class=\"kcbmc-participants\">\n" +
-                    "                                <input disabled=\"disabled\" value=\"Child #" + (j + 1) + "\" class=\"num\">\n" +
-                    "                                <select name=\"data[Cbmc][title" + j + "]\" required>\n" +
-                    "                                    <option value='MR.'>Mr.</option>\n" +
-                    "                                    <option value='Ms.'>Ms.</option>\n" +
-                    "                                    <option value='Dr.'>Dr.</option>\n" +
-                    "                                </select>\n" +
-                    "                                <input class=\"kcbmc-participants-last\" type=\"text\" name=\"data[CbmcCustomers][lname" + j + "]\"\n" +
-                    "                                       size=\"8\" placeholder=\"Last\" required>\n" +
-                    "                                <input class=\"kcbmc-participants-first\" type=\"text\" name=\"data[CbmcCustomers][fname" + j + "]\"\n" +
-                    "                                       size=\"15\" placeholder=\"First\" required>\n" +
-                    "                                <input class=\"kcbmc-participants-dob date_child\" size=\"10\" type=\"text\"\n" +
-                    "                                       readonly='readonly' name=\"data[CbmcCustomers][dob" + j + "]\"\n" +
-                    "                                       placeholder=\"DOB\" required>\n" +
-                    "                                <img src=\"https://ozshuttle.com/ozshuttle/images/icon_calen.gif\">\n" +
-                    "                                <input class=\"kcbmc-participants-is_child\" type=\"hidden\"\n" +
-                    "                                       name=\"data[CbmcCustomers][is_child" + j + "]\" value=\"1\">\n" +
-                    "                            </div>");
+                    "                                    <div style=\"display: flex; flex-wrap: wrap;\">\n" +
+                    "                                    <input disabled=\"disabled\" value=\"Child #" + (j + 1 - adults) + "\" class=\"num\">\n" +
+                    "                                    <select name=\"data[Cbmc][title" + j + "]\" required>\n" +
+                    "                                        <option value=\"Mr.\">Mr.</option>\n" +
+                    "                                        <option value=\"Ms.\">Ms.</option>\n" +
+                    "                                        <option value=\"Dr.\">Dr.</option>\n" +
+                    "                                    </select>\n" +
+                    "                                    <input class=\"kcbmc-participants-last\" type=\"text\" name=\"data[CbmcCustomers][lname" + j + "]\"\n" +
+                    "                                           size=\"4\" placeholder=\"Last\" required>\n" +
+                    "                                    <input class=\"kcbmc-participants-first\" type=\"text\" name=\"data[CbmcCustomers][fname" + j + "]\"\n" +
+                    "                                           size=\"8\" placeholder=\"First\" required>\n" +
+                    "                                    <input type=\"text\" size=\"5\" name=\"data[Cbmc][korean_name" + j + "]\" placeholder=\"한글 성함\">\n" +
+                    "                                    <input readonly=\"readonly\" class=\"kcbmc-participants-dob date_child\" size=\"9\"\n" +
+                    "                                           type=\"text\"\n" +
+                    "                                           name=\"data[CbmcCustomers][dob" + j + "]\"\n" +
+                    "                                           placeholder=\"DOB\" required>\n" +
+                    "                                    <input class=\"kcbmc-participants-is_child\" type=\"hidden\"\n" +
+                    "                                           name=\"data[CbmcCustomers][is_child" + j + "]\" value=\"1\">\n" +
+                    "                                </div></div>");
             }
 
             $(".kcbmc-participants-last, .kcbmc-participants-first").change(function () {
@@ -266,7 +350,7 @@
                     "                                <input id=\"phone" + j + "\" maxlength='12' class=\"col\" type=\"text\" name=\"data[CbmcCustomers][phone" + j + "]\"\n" +
                     "                                       placeholder=\"Phone\" required>\n" +
                     "                                <input id=\"email" + j + "\" class=\"col\" type=\"text\" name=\"data[CbmcCustomers][email" + j + "]\" placeholder=\"Email\" required>\n" +
-                    "                                <input id=\"kakao" + j + "\" class=\"col\" type=\"text\" name=\"data[CbmcCustomers][kakao" + j + "]\"\n" +
+                    "                                <input id=\"kakao" + j + "\" class=\"col\" type=\"text\" name=\"data[Cbmc][kakao" + j + "]\"\n" +
                     "                                       placeholder=\"Kakao Talk ID\" required>\n" +
                     "                            </div>");
                 $("#phone" + j + "").keyup(function () {
@@ -277,11 +361,11 @@
 
             for (; j < pax; j++) {
                 $("#ptcp_info").append("<div style=\"display: flex\">\n" +
-                    "                                <input disabled=\"disabled\" value=\"Child #" + (j + 1) + "\" class=\"num\">\n" +
+                    "                                <input disabled=\"disabled\" value=\"Child #" + (j + 1 - adults) + "\" class=\"num\">\n" +
                     "                                <input id=\"phone" + j + "\" maxlength='12' class=\"col\" type=\"text\" name=\"data[CbmcCustomers][phone" + j + "]\"\n" +
                     "                                       placeholder=\"Phone\" required>\n" +
                     "                                <input id=\"email" + j + "\" class=\"col\" type=\"text\" name=\"data[CbmcCustomers][email" + j + "]\" placeholder=\"Email\" required>\n" +
-                    "                                <input id=\"kakao" + j + "\" class=\"col\" type=\"text\" name=\"data[CbmcCustomers][kakao" + j + "]\"\n" +
+                    "                                <input id=\"kakao" + j + "\" class=\"col\" type=\"text\" name=\"data[Cbmc][kakao" + j + "]\"\n" +
                     "                                       placeholder=\"Kakao Talk ID\" required>\n" +
                     "                            </div>");
                 $("#phone" + j + "").keyup(function () {
@@ -469,67 +553,14 @@
             $("#total2").html(final_price.toFixed(2));
         });
 
-        $("#card, #check").change(function () {
+        $("#card, #check, #bank").change(function () {
             if ($("#card").prop("checked")) {
                 $("#payment-contents").html("<input id=\"card_num\" type=\"text\" maxlength=\"19\" name=\"data[Cbmc][credit_num]\" placeholder=\"Credit Card Number\" required><br>\n" +
                     "                            <input id='mmyy' type=\"text\" maxlength=\"7\" size=\"10\" name=\"data[Cbmc][credit_exp]\" placeholder=\"MM/YYYY\" required>\n" +
-                    "                            <input type=\"text\" maxlength=\"3\" size=\"3\" name=\"data[Cbmc][credit_cid]\" placeholder=\"CID\" required><br>\n" +
+                    "                            <input type=\"text\" maxlength=\"4\" size=\"4\" name=\"data[Cbmc][credit_cid]\" placeholder=\"CID\" required><br>\n" +
                     "                            <input id='noc' type=\"text\" name=\"data[Cbmc][credit_holder]\" placeholder=\"Name of Card Holder\" required><br>\n" +
                     "                            <input type=\"text\" name=\"data[Cbmc][credit_bill]\" placeholder=\"Billing Address\" required><br>\n" +
                     "                            <input type=\"text\" size=\"10\" name=\"data[Cbmc][credit_city]\" placeholder=\"City\" required>\n" +
-                    "                            <select type=\"text\" name=\"data[Cbmc][credit_state]\" placeholder=\"State\" required>\n" +
-                    "                                <option value=\"AL\">AL</option>\n" +
-                    "                                <option value=\"AK\">AK</option>\n" +
-                    "                                <option value=\"AR\">AR</option>\n" +
-                    "                                <option value=\"AZ\">AZ</option>\n" +
-                    "                                <option value=\"CA\">CA</option>\n" +
-                    "                                <option value=\"CO\">CO</option>\n" +
-                    "                                <option value=\"CT\">CT</option>\n" +
-                    "                                <option value=\"DC\">DC</option>\n" +
-                    "                                <option value=\"DE\">DE</option>\n" +
-                    "                                <option value=\"FL\">FL</option>\n" +
-                    "                                <option value=\"GA\">GA</option>\n" +
-                    "                                <option value=\"HI\">HI</option>\n" +
-                    "                                <option value=\"IA\">IA</option>\n" +
-                    "                                <option value=\"ID\">ID</option>\n" +
-                    "                                <option value=\"IL\">IL</option>\n" +
-                    "                                <option value=\"IN\">IN</option>\n" +
-                    "                                <option value=\"KS\">KS</option>\n" +
-                    "                                <option value=\"KY\">KY</option>\n" +
-                    "                                <option value=\"LA\">LA</option>\n" +
-                    "                                <option value=\"MA\">MA</option>\n" +
-                    "                                <option value=\"MD\">MD</option>\n" +
-                    "                                <option value=\"ME\">ME</option>\n" +
-                    "                                <option value=\"MI\">MI</option>\n" +
-                    "                                <option value=\"MN\">MN</option>\n" +
-                    "                                <option value=\"MO\">MO</option>\n" +
-                    "                                <option value=\"MS\">MS</option>\n" +
-                    "                                <option value=\"MT\">MT</option>\n" +
-                    "                                <option value=\"NC\">NC</option>\n" +
-                    "                                <option value=\"NE\">NE</option>\n" +
-                    "                                <option value=\"NH\">NH</option>\n" +
-                    "                                <option value=\"NJ\">NJ</option>\n" +
-                    "                                <option value=\"NM\">NM</option>\n" +
-                    "                                <option value=\"NV\">NV</option>\n" +
-                    "                                <option value=\"NY\">NY</option>\n" +
-                    "                                <option value=\"ND\">ND</option>\n" +
-                    "                                <option value=\"OH\">OH</option>\n" +
-                    "                                <option value=\"OK\">OK</option>\n" +
-                    "                                <option value=\"OR\">OR</option>\n" +
-                    "                                <option value=\"PA\">PA</option>\n" +
-                    "                                <option value=\"RI\">RI</option>\n" +
-                    "                                <option value=\"SC\">SC</option>\n" +
-                    "                                <option value=\"SD\">SD</option>\n" +
-                    "                                <option value=\"TN\">TN</option>\n" +
-                    "                                <option value=\"TX\">TX</option>\n" +
-                    "                                <option value=\"UT\">UT</option>\n" +
-                    "                                <option value=\"VT\">VT</option>\n" +
-                    "                                <option value=\"VA\">VA</option>\n" +
-                    "                                <option value=\"WA\">WA</option>\n" +
-                    "                                <option value=\"WI\">WI</option>\n" +
-                    "                                <option value=\"WV\">WV</option>\n" +
-                    "                                <option value=\"WY\">WY</option>\n" +
-                    "                            </select>\n" +
                     "                            <input type=\"text\" size=\"5\" maxlength=\"5\" name=\"data[Cbmc][credit_zip]\" placeholder=\"Zip\" required>");
                 cost_total = (adults * costa) + (children * costc);
                 total_price = cost_total + tour_total + hotel_total;
@@ -551,13 +582,21 @@
                     this.value = inputMmyy(_val);
                 });
             } else {
-                $("#payment-contents").html("<div>\n" +
-                    "                            <p>개인 수표 보내실 주소</p>\n" +
-                    "                            <p>Payable to KCBMC</p>\n" +
-                    "                            <p>1355 W. Cheltenham Ave</p>\n" +
-                    "                            <p>Suite 105</p>\n" +
-                    "                            <p>Elkins Park, 19027</p>\n" +
-                    "                        </div>");
+                if ($("#check").prop("checked")) {
+                    $("#payment-contents").html("<div>\n" +
+                        "                            <p>개인 수표 보내실 주소</p>\n" +
+                        "                            <p>Payable to KCBMC</p>\n" +
+                        "                            <p>1355 W. Cheltenham Ave</p>\n" +
+                        "                            <p>Suite 105</p>\n" +
+                        "                            <p>Elkins Park, 19027</p>\n" +
+                        "                        </div>");
+                } else if ($("#bank").prop("checked")) {
+                    $("#payment-contents").html("<div id=\"bank_info\"  style=\"display: flex;\">\n" +
+                        "                                <input name=\"data[Cbmc][routing]\" placeholder=\"Routing number\">\n" +
+                        "                                <input name=\"data[Cbmc][account]\" placeholder=\"Account number\">\n" +
+                        "                                <input name=\"data[Cbmc][acnt_name]\" placeholder=\"Name on the account\">\n" +
+                        "                            </div>");
+                }
                 cost_total = (adults * costa) + (children * costc);
                 total_price = cost_total + tour_total + hotel_total;
                 credit_fee = 0;
@@ -751,6 +790,18 @@
             <div class="kcbmc-section">
                 <div class="kcbmc-section-left">
                     <div class="kcbmc-form-input-wrapper">
+                        <p class="kcbmc-form-input-label">Language
+                            <label for="eng">
+                                <input id="eng" type="radio" name="Lang">
+                                ENG
+                            </label>
+                            <label for="kor">
+                                <input id="kor" type="radio" name="Lang" checked="checked">
+                                KOR
+                            </label>
+                        </p>
+                    </div>
+                    <div class="kcbmc-form-input-wrapper">
                         <p class="kcbmc-form-input-label">Number of Participants & Associated regional Chapter</p>
                         <div id="kcbmc-form-info" style="display: flex;">
                             <div style="width: 10%;">
@@ -798,6 +849,9 @@
                                     <option value="회장">회장</option>
                                     <option value="부회장">부회장</option>
                                     <option value="간사">간사</option>
+                                    <option value="총무">총무</option>
+                                    <option value="회원">회원</option>
+                                    <option value="없음">없음</option>
                                 </select>
                             </div>
                         </div>
@@ -806,23 +860,26 @@
                         <p class="kcbmc-form-input-label">Name of Participants</p>
                         <div id="participants">
                             <div class="kcbmc-participants">
-                                <input disabled="disabled" value="Adult #1" class="num">
-                                <select name="data[Cbmc][title0]" required>
-                                    <option value="Mr.">Mr.</option>
-                                    <option value="Ms.">Ms.</option>
-                                    <option value="Dr.">Dr.</option>
-                                </select>
-                                <input class="kcbmc-participants-last" type="text" name="data[CbmcCustomers][lname0]"
-                                       size="8" placeholder="Last" required>
-                                <input class="kcbmc-participants-first" type="text" name="data[CbmcCustomers][fname0]"
-                                       size="15" placeholder="First" required>
-                                <input readonly="readonly" class="kcbmc-participants-dob adult_date" size="10"
-                                       type="text"
-                                       name="data[CbmcCustomers][dob0]"
-                                       placeholder="DOB" required>
-                                <img src="https://ozshuttle.com/ozshuttle/images/icon_calen.gif">
-                                <input class="kcbmc-participants-is_child" type="hidden"
-                                       name="data[CbmcCustomers][is_child0]" value="0">
+                                <div style="display: flex; flex-wrap: wrap;">
+                                    <input disabled="disabled" value="Adult #1" class="num">
+                                    <select name="data[Cbmc][title0]" required>
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Ms.">Ms.</option>
+                                        <option value="Dr.">Dr.</option>
+                                    </select>
+                                    <input class="kcbmc-participants-last" type="text" name="data[CbmcCustomers][lname0]"
+                                           size="4" placeholder="Last" required>
+                                    <input class="kcbmc-participants-first" type="text" name="data[CbmcCustomers][fname0]"
+                                           size="8" placeholder="First" required>
+                                    <input type="text" size="5" name="data[Cbmc][korean_name0]" placeholder="한글 성함">
+                                    <input readonly="readonly" class="kcbmc-participants-dob adult_date" size="9"
+                                           type="text"
+                                           name="data[CbmcCustomers][dob0]"
+                                           placeholder="DOB" required>
+                                    <input class="kcbmc-participants-is_child" type="hidden"
+                                           name="data[CbmcCustomers][is_child0]" value="0">
+                                </div>
+                                <!--<img src="https://ozshuttle.com/ozshuttle/images/icon_calen.gif">-->
                             </div>
                         </div>
                     </div>
@@ -834,8 +891,17 @@
                         </div>
                     </div>
                     <div class="kcbmc-form-input-wrapper">
-                        <p class="kcbmc-form-input-label">Mailing Address, Email, & Cell Phone numbers</p>
-                        <div>
+                        <p class="kcbmc-form-input-label">Mailing Address, Email, & Cell Phone numbers
+                            <label for="fo">
+                                <input id="fo" name="mailing" type="radio" checked="checked" value="fo">
+                                미국
+                            </label>
+                            <label for="ko">
+                                <input id="ko" name="mailing" type="radio" value="ko">
+                                해외
+                            </label>
+                        </p>
+                        <div id="addr">
                             <input style="width: 45%;" type="text" name="data[CbmcCustomers][address]"
                                    size="25"
                                    placeholder="Address" required><br>
@@ -942,11 +1008,11 @@
                     <div class="kcbmc-form-input-wrapper">
                         <p class="kcbmc-form-input-label">Hotel Reservations
                             <label for="hotel_need">
-                                <input id="hotel_need" type="radio" name="hotel_need" value="1" checked="checked">
+                                <input id="hotel_need" type="radio" name="data[Cbmc][hotel]" value="1" checked="checked">
                                 예약
                             </label>
                             <label for="hotel_no">
-                                <input id="hotel_no" type="radio" name="hotel_need" value="0">
+                                <input id="hotel_no" type="radio" name="data[Cbmc][hotel]" value="0">
                                 예약 안 함
                             </label>
                         </p>
@@ -973,12 +1039,7 @@
                                 </select>
                             </div>
                             <div class="kcbmc-exp">
-                                <p>- Double Tree Hotel Philadelphia Downtown</p>
-                                <p>&nbsp;&nbsp;Address: 237 S Broad St, Philadelphia, PA 19107</p>
-                                <p>&nbsp;&nbsp;Phone: (215) 893-1600</p>
-                                <p>&nbsp;&nbsp;호텔은 2인1실 기준이며. 개인 독방을 원하시면 $210 을 추가하셔야 합니다.</p>
-                                <p>- 대회전/후의 추가객실예약은 대회가격 ($210/1박)의 혜택을 협회에서 드립니다.</p>
-                                <p>- 부부가 아닌경우 룸메이트를 원하시면 신청서에 알려 주시기 바랍니다.</p>
+                                <?= $notice['CbmcText']['hotel_text']?>
                             </div>
                         </div>
                     </div>
@@ -998,7 +1059,7 @@
                                 <span>
                                     랭캐스터 성극, Queen Esther <strong>$160.00/pp</strong>
                                 </span>
-                                <a style="margin-left: 10px;" href="https://www.ihanatour.com/files/QueenEsther.pdf">
+                                <a style="margin-left: 10px;" href="/files/QueenEsther.pdf">
                                     [일정보기]
                                 </a>
                                 <div class="modal fade" id="tour_m1">
@@ -1033,7 +1094,7 @@
                                     미동부지역 4박5일 하이라이트 <strong>$680.00/pp</strong>
                                 </span>
                                 <a style="margin-left: 10px;"
-                                   href="https://www.ihanatour.com/files/USEastern4nt5dyTour.pdf">
+                                   href="/files/USEastern4nt5dyTour.pdf">
                                     [일정보기]
                                 </a>
                                 <div class="modal fade" id="tour_m2">
@@ -1064,11 +1125,7 @@
                                 </div>
                             </div>
                             <div class="kcbmc-exp">
-                                <p>- 옵션투어는 날자가 겹치는 관계로 두가지중 하나만 선택합니다.</p>
-                                <p>- 상기옵션투어는 어린이 할인이 적용되지 않습니다.</p>
-                                <p>- 미동부투어 하이라이트 4박투어는 2인1실기준이며<br>
-                                    &nbsp;&nbsp;전일정 식사/현지옵션/가이드팁이 포함되어있습니다. 또한 <span style="color: red;">여권지참필수</span>입니다.
-                                </p>
+                                <?= $notice['CbmcText']['tour_text']?>
                             </div>
                         </div>
                     </div>
@@ -1081,11 +1138,10 @@
                     </div>
                     <div class="kcbmc-form-input-wrapper">
                         <p class="kcbmc-form-input-label">Payment Information (크레딧카드 결재사 3.5%의 수수료가 추가됩니다.)</p>
-                        <label for="card" style="margin-right: 10px;">
+                        <label for="bank" style="margin-right: 10px;">
                             <div style="display: flex; align-items: center">
-                                <input id="card" type="radio" name="data[Reservation][payment_method]"
-                                       checked="checked">Credit
-                                Card
+                                <input id="bank" type="radio" name="data[Reservation][payment_method]"
+                                       checked="checked">Bank transfer
                             </div>
                         </label>
                         <label for="check" style="margin-right: 10px;">
@@ -1093,73 +1149,18 @@
                                 <input id="check" type="radio" name="data[Reservation][payment_method]">Check
                             </div>
                         </label>
+                        <label for="card" style="margin-right: 10px;">
+                            <div style="display: flex; align-items: center">
+                                <input id="card" type="radio" name="data[Reservation][payment_method]">Credit Card
+                            </div>
+                        </label>
                         <div id="payment-contents">
-                            <input id="card_num" type="text" maxlength="19" name="data[Cbmc][credit_num]"
-                                   placeholder="Credit Card Number" required><br>
-                            <input id="mmyy" type="text" maxlength="7" size="10" name="data[Cbmc][credit_exp]"
-                                   placeholder="MM/YYYY" required>
-                            <input type="text" maxlength="3" size="3" name="data[Cbmc][credit_cid]" placeholder="CID"
-                                   required><br>
-                            <input id="noc" type="text" name="data[Cbmc][credit_holder]"
-                                   placeholder="Name of Card Holder" required><br>
-                            <input type="text" name="data[Cbmc][credit_bill]" placeholder="Billing Address"
-                                   required><br>
-                            <input type="text" size="10" name="data[Cbmc][credit_city]" placeholder="City" required>
-                            <select type="text" name="data[Cbmc][credit_state]" placeholder="State" required>
-                                <option value="AL">AL</option>
-                                <option value="AK">AK</option>
-                                <option value="AR">AR</option>
-                                <option value="AZ">AZ</option>
-                                <option value="CA">CA</option>
-                                <option value="CO">CO</option>
-                                <option value="CT">CT</option>
-                                <option value="DC">DC</option>
-                                <option value="DE">DE</option>
-                                <option value="FL">FL</option>
-                                <option value="GA">GA</option>
-                                <option value="HI">HI</option>
-                                <option value="IA">IA</option>
-                                <option value="ID">ID</option>
-                                <option value="IL">IL</option>
-                                <option value="IN">IN</option>
-                                <option value="KS">KS</option>
-                                <option value="KY">KY</option>
-                                <option value="LA">LA</option>
-                                <option value="MA">MA</option>
-                                <option value="MD">MD</option>
-                                <option value="ME">ME</option>
-                                <option value="MI">MI</option>
-                                <option value="MN">MN</option>
-                                <option value="MO">MO</option>
-                                <option value="MS">MS</option>
-                                <option value="MT">MT</option>
-                                <option value="NC">NC</option>
-                                <option value="NE">NE</option>
-                                <option value="NH">NH</option>
-                                <option value="NJ">NJ</option>
-                                <option value="NM">NM</option>
-                                <option value="NV">NV</option>
-                                <option value="NY">NY</option>
-                                <option value="ND">ND</option>
-                                <option value="OH">OH</option>
-                                <option value="OK">OK</option>
-                                <option value="OR">OR</option>
-                                <option value="PA">PA</option>
-                                <option value="RI">RI</option>
-                                <option value="SC">SC</option>
-                                <option value="SD">SD</option>
-                                <option value="TN">TN</option>
-                                <option value="TX">TX</option>
-                                <option value="UT">UT</option>
-                                <option value="VT">VT</option>
-                                <option value="VA">VA</option>
-                                <option value="WA">WA</option>
-                                <option value="WI">WI</option>
-                                <option value="WV">WV</option>
-                                <option value="WY">WY</option>
-                            </select>
-                            <input type="text" size="5" maxlength="5" name="data[Cbmc][credit_zip]" placeholder="Zip"
-                                   required>
+                            <div id="bank_info" style="display: flex;">
+                                <input name="data[Cbmc][routing]" placeholder="Routing number">
+                                <input name="data[Cbmc][account]" placeholder="Account number">
+                                <input name="data[Cbmc][acnt_name]"
+                                       placeholder="Name on the account">
+                            </div>
                         </div>
                     </div>
                     <div class="kcbmc-form-input-wrapper">
@@ -1173,9 +1174,7 @@
                     </div>
                     <div>
                         <p style="font-size: 11px;">
-                            By Electronically signing above, I fully authorize the KCBMC to accept, register my
-                            reservation, and charge my credit card in the amount $<span id="total2">0.00</span>. I am
-                            also fully aware of cancellation policy provided by the KCBMC.
+                            <?= $notice['CbmcText']['form_text']?>
                         </p>
                     </div>
                 </div>
@@ -1305,25 +1304,12 @@
                 </div>
             </div>
             <div class="kcbmc-footer">
-                <p>안내사항</p>
-                <ol class="kcbmc-footer-contents">
-                    <li>
-                        필라공항/호텔 간 셔틀서비스는 개별적으로 택시/기차/우버등을 이용하여주십시요.<br>
-                        참고로 필라델피아시에서 지정한 공항/호텔간 택시비는 균일가로 $25.00/편도이며 공항에서
-                        호텔까지는 약 15분 소요됩니다.
-                    </li>
-                    <li>
-                        자세한 정보는 대회 웹사이트 <a href="http://www.2019kcbmc.com">www.2019kcbmc.com</a>에서 상세히 안내해드리고 있습니다
-                    </li>
-                    <li>
-                        옵션투어안내<br>랭캐스터 성극은 사전 좌석지정이 안됩니다. 따라서 극장에 도착하여 좌석을 배분 받습니다.<br>
-                        동부투어는 투어 종료 후 필라공항에 위치한 호텔에 투숙하시고 익일 조식을 마치신 후 자유체크아웃입니다.
-                    </li>
-                    <li>
-                        추가 문의 사항이 있으시면 총연 사무국의 이메일 contact@kcbmc.net 또는 전화 703-439-1703 으로 문의 바랍니다.
-                    </li>
-                </ol>
+                <?= $notice['CbmcText']['notice_text']?>
             </div>
         </form>
     </div>
 </div>
+
+<?php
+debug($notice);
+?>
